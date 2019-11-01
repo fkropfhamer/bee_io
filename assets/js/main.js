@@ -83,12 +83,13 @@ function setupEventlisteners() {
   });
   // TODO: fires when start button clicked!
   window.addEventListener('click', () => {
-    gameState.bullets.push({
+    socket.emit('shoot');
+    /* gameState.bullets.push({
       x: gameState.x,
       y: gameState.y,
       angle: (gameState.angle - Math.PI) % (2 * Math.PI),
       speed: 5,
-    });
+    }); */
   });
 }
 
@@ -104,14 +105,14 @@ const draw = () => {
   });
   view.drawPlayer(gameState.angle, gameState.frame);
 };
-
+/*
 function updateX(x, speed, angle) {
   return x + speed * Math.cos(angle);
 }
 
 function updateY(y, speed, angle) {
   return y + speed * Math.sin(angle);
-}
+} */
 
 function update() {
   count += 1;
@@ -125,14 +126,14 @@ function update() {
     });
     */
   }
-
+  /*
   gameState.bullets = gameState.bullets.map((bullet) => ({
     x: updateX(bullet.x, bullet.speed, bullet.angle),
     y: updateY(bullet.y, bullet.speed, bullet.angle),
     speed: bullet.speed,
     angle: bullet.angle,
   }));
-
+*/
   // gameState.x = updateX(gameState.x, gameState.speed, gameState.angle);
   // gameState.y = updateY(gameState.y, gameState.speed, gameState.angle);
 }
@@ -176,6 +177,7 @@ function setupSocket() {
     gameState.y = data.y;
     gameState.angle = data.angle;
     gameState.enemys = data.enemys;
+    gameState.bullets = data.bullets;
     window.requestAnimationFrame(gameLoop);
   });
 }

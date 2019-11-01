@@ -1,3 +1,5 @@
+import Util from './util';
+
 class Player {
   constructor(socket, game) {
     this.socket = socket;
@@ -14,31 +16,32 @@ class Player {
       // console.log(dir);
       this.angle = dir;
     });
+    this.socket.on('shoot', () => {
+      this.shoot();
+    });
+  }
+
+  shoot() {
+    const bulletAngle = (this.angle + Math.PI) % (2 * Math.PI);
+    this.game.createBullet(this.x, this.y, bulletAngle);
   }
 
   update() {
-    this.x = Player.updateX(this.x, this.speed, this.angle);
-    this.y = Player.updateY(this.y, this.speed, this.angle);
-  }
-
-  static updateX(x, speed, angle) {
-    return x + speed * Math.cos(angle);
-  }
-
-  static updateY(y, speed, angle) {
-    return y + speed * Math.sin(angle);
+    this.x = Util.updateX(this.x, this.speed, this.angle);
+    this.y = Util.updateY(this.y, this.speed, this.angle);
   }
 
   sendStart() {
     this.socket.emit('start', { x: this.x, y: this.y, angle: this.angle });
   }
 
-  sendUpdate(enemys) {
+  sendUpdate(enemys, bullets) {
     this.socket.emit('update', {
       x: this.x,
       y: this.y,
       angle: this.angle,
       enemys,
+      bullets,
     });
   }
 }
