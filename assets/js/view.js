@@ -21,16 +21,29 @@ class View {
     document.getElementById('root').appendChild(this.canvas);
   }
 
-  showStartButton(clickEvent) {
+  showStartButton(startEvent) {
     const button = document.createElement('button');
     button.style.position = 'absolute';
     button.style.left = '50%';
     button.style.top = '50%';
     button.innerHTML = 'start';
     button.disabled = true;
-    button.addEventListener('click', () => clickEvent());
+    button.addEventListener('click', () => startEvent());
     document.getElementById('root').appendChild(button);
     this.button = button;
+    this.showStartMenu();
+  }
+
+  showStartMenu() {
+    const div = document.createElement('div');
+    div.style.backgroundColor = 'grey';
+    div.style.position = 'absolute';
+    div.style.left = '25%';
+    div.style.top = '25%';
+    div.style.width = `${this.width / 2}px`;
+    div.style.height = `${this.height / 2}px`;
+    document.getElementById('root').appendChild(div);
+    this.div = div;
   }
 
   enableStartButton() {
