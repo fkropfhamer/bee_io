@@ -4,7 +4,8 @@ import bee03 from '../images/bee03.png';
 import background from '../images/waben001.png'; // 8016 x 5881
 import sting from '../images/sting001.png';
 import '../css/index.css';
-import music from '../sound/Six_Umbrellas_-_07_-_Asset_House.mp3';
+// import music from '../sound/Six_Umbrellas_-_07_-_Asset_House.mp3';
+import music2 from '../sound/Tec.mp3';
 import View from './view';
 
 let socket;
@@ -66,7 +67,7 @@ function setupImages(callback) {
 
 function setupAudio(callback) {
   backgroundMusic = new Audio();
-  backgroundMusic.src = music;
+  backgroundMusic.src = music2;
   backgroundMusic.loop = true;
   backgroundMusic.onloadeddata = callback;
 }
