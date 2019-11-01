@@ -1,0 +1,11 @@
+/node_modules
+/.pnp
+.pnp.js
+
+.vscode/
+.DS_Store
+
+/public
+/dist
+
+npm-debug.log*

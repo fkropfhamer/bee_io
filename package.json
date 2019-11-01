@@ -1,0 +1,48 @@
+{
+  "name": "bee_io",
+  "version": "0.0.1",
+  "description": "",
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
+    "@babel/preset-env": "^7.6.3",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.2.0",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.16.0",
+    "nodemon": "^1.19.4",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "file-loader": "^4.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "prettier": "^1.18.2",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint:prettier": "prettier --check '{**/*,*}.{js,json}'",
+    "lint": "eslint . -c .eslintrc.json --ext js,json",
+    "lint:fix": "eslint . -c .eslintrc.json --ext js,json --fix",
+    "lint:prettier:fix": "prettier --write '{**/*,*}.{js,json}'",
+    "start": "npm run build:server && npm run build && node dist/index.js",
+    "dev": "nodemon --exec babel-node src/index.js",
+    "build": "webpack --mode production",
+    "watch": "webpack --watch --mode development",
+    "build:server": "babel src -d dist"
+  },
+  "author": "",
+  "license": "ISC"
+}
