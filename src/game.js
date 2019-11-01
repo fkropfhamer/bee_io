@@ -19,21 +19,26 @@ class Game {
   }
 
   playerDisconnected(player) {
-      this.players = this.players.filter(p => !Object.is(p, player));
+    this.players = this.players.filter((p) => !Object.is(p, player));
   }
 
   update() {
-      // console.log('update');
-      this.players.forEach((player) => {
-        player.update();
-      });
-      this.players.forEach((player) => {
-        const enemys = this.players.filter(p => !Object.is(p, player));
-        // console.log('enemy', enemys);
-        // console.log('player', this.players);
-        const enemyPos = enemys.map(enemy => ({x: enemy.x, y: enemy.y, angle: enemy.angle, frame: 1}));
-        player.sendUpdate(enemyPos);
-      });
+    // console.log('update');
+    this.players.forEach((player) => {
+      player.update();
+    });
+    this.players.forEach((player) => {
+      const enemys = this.players.filter((p) => !Object.is(p, player));
+      // console.log('enemy', enemys);
+      // console.log('player', this.players);
+      const enemyPos = enemys.map((enemy) => ({
+        x: enemy.x,
+        y: enemy.y,
+        angle: enemy.angle,
+        frame: 1,
+      }));
+      player.sendUpdate(enemyPos);
+    });
   }
 }
 
