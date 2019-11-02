@@ -2,7 +2,7 @@ import bee01 from '../images/bee01.png'; // 934 x 632
 import bee02 from '../images/bee02.png';
 import bee03 from '../images/bee03.png';
 import background from '../images/waben001.png'; // 8016 x 5881
-import sting from '../images/sting001.png';
+import sting from '../images/sting001.png'; // 631 x 337
 import '../css/index.css';
 import music from '../sound/Six_Umbrellas_-_07_-_Asset_House.mp3';
 import View from './view';
