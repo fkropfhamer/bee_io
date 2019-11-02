@@ -44,6 +44,38 @@ class View {
     div.style.height = `${this.height / 2}px`;
     document.getElementById('root').appendChild(div);
     this.div = div;
+
+    const button = document.createElement('button');
+    button.style.position = 'absolute';
+    button.style.left = '20%';
+    button.style.top = '50%';
+    button.innerHTML = 'start';
+    button.disabled = true;
+    // button.addEventListener('click', () => startEvent());
+    this.div.appendChild(button);
+
+    const input = document.createElement('input');
+    input.placeholder = 'Name';
+    input.required = true;
+    input.style.position = 'absolute';
+    input.style.left = '20%';
+    input.style.top = '30%';
+
+    this.div.appendChild(input);
+
+    const heading = document.createElement('h1');
+    heading.innerHTML = 'BEE IO';
+    heading.style.position = 'absolute';
+    heading.style.left = '20%';
+    heading.style.top = '5%';
+
+    this.div.appendChild(heading);
+
+    // this.div.style.display = "none";
+  }
+
+  hideStartMenu() {
+    this.div.style.display = 'none';
   }
 
   enableStartButton() {
