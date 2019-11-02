@@ -27,7 +27,6 @@ test('in', () => {
   expect(Util.isIn(a, b, c, d, p6)).toBe(false);
 });
 
-
 test('in turned', () => {
   const a = { x: 8, y: 11 };
   const b = { x: 12, y: 7 };

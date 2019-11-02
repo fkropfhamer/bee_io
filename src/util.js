@@ -31,7 +31,7 @@ class Util {
     return a.x * b.x + a.y * b.y;
   }
 
-  // rotate Point about an angle around the Origin 
+  // rotate Point about an angle around the Origin
   static rotate(p, angle) {
     const x = p.x * Math.cos(angle) - p.y * Math.sin(angle);
     const y = p.y * Math.cos(angle) + p.x * Math.sin(angle);

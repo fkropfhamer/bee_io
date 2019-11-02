@@ -114,7 +114,7 @@ class View {
     // this.ctx.drawImage(image, -imgWidth / 2, -imgHeight / 2, imgWidth, imgHeight);
     this.ctx.beginPath();
     // this.ctx.lineWidth = 5;
-    this.ctx.strokeStyle = "red";
+    this.ctx.strokeStyle = 'red';
 
     this.ctx.rect(-imgWidth / 2, -imgHeight / 2, imgWidth, imgHeight);
     this.ctx.stroke();
