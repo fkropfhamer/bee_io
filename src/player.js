@@ -64,6 +64,19 @@ class Player {
   update() {
     this.x = Util.updateX(this.x, this.speed, this.angle);
     this.y = Util.updateY(this.y, this.speed, this.angle);
+
+    if (this.x + config.playerHeight / 2 > config.boundRight) {
+      this.x = config.boundRight - config.playerHeight / 2;
+    }
+    if (this.x - config.playerHeight / 2 < config.boundLeft) {
+      this.x = config.boundLeft + config.playerHeight / 2;
+    }
+    if (this.y + config.playerHeight / 2 > config.boundBottom) {
+      this.y = config.boundBottom - config.playerHeight / 2;
+    }
+    if (this.y - config.playerHeight / 2 < config.boundTop) {
+      this.y = config.boundTop + config.playerHeight / 2;
+    }
   }
 
   sendStart() {

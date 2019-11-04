@@ -5,18 +5,18 @@ class Game {
   constructor() {
     this.players = [];
     this.bullets = [];
-    this.boundTop = 1000;
-    this.boundBottom = 3000;
-    this.boundLeft = 1000;
-    this.boundRight = 3000;
-    this.bulletDuration = 10000;
+    // this.boundTop = 1000;
+    // this.boundBottom = 3000;
+    // this.boundLeft = 1000;
+    // this.boundRight = 3000;
+    // this.bulletDuration = 10000;
     setInterval((game) => game.update(), 25, this);
   }
 
   addPlayer(player) {
     console.log('added Player');
-    player.x = this.boundLeft + Math.random() * this.boundRight;
-    player.y = this.boundTop + Math.random() * this.boundBottom;
+    player.x = config.boundLeft + Math.random() * config.boundRight;
+    player.y = config.boundTop + Math.random() * config.boundBottom;
     player.angle = Math.random();
     player.speed = config.playerSpeed;
     player.health = config.playerHealth;
