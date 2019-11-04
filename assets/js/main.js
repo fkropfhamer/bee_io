@@ -187,8 +187,8 @@ function init() {
   socket = io();
 
   view = new View();
-  view.showStartButton(() => {
-    view.hideStartButton();
+  view.showStartMenu(() => {
+    view.hideStartMenu();
     socket.emit('start');
   });
 

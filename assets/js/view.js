@@ -21,20 +21,7 @@ class View {
     document.getElementById('root').appendChild(this.canvas);
   }
 
-  showStartButton(startEvent) {
-    const button = document.createElement('button');
-    button.style.position = 'absolute';
-    button.style.left = '50%';
-    button.style.top = '50%';
-    button.innerHTML = 'start';
-    button.disabled = true;
-    button.addEventListener('click', () => startEvent());
-    document.getElementById('root').appendChild(button);
-    this.button = button;
-    this.showStartMenu();
-  }
-
-  showStartMenu() {
+  showStartMenu(startEvent) {
     const div = document.createElement('div');
     div.style.backgroundColor = 'grey';
     div.style.position = 'absolute';
@@ -45,14 +32,27 @@ class View {
     document.getElementById('root').appendChild(div);
     this.div = div;
 
+    const form = document.createElement('form');
+    form.onsubmit = () => false;
+    this.form = form;
+    this.div.appendChild(form);
+
     const button = document.createElement('button');
+    button.type = 'submit';
     button.style.position = 'absolute';
     button.style.left = '20%';
     button.style.top = '50%';
     button.innerHTML = 'start';
     button.disabled = true;
-    // button.addEventListener('click', () => startEvent());
-    this.div.appendChild(button);
+    button.addEventListener('click', () => {
+      if (this.input.value !== '') {
+        // TODO set Player name and send to server!
+        console.log(this.input.value);
+        startEvent();
+      }
+    });
+    this.form.appendChild(button);
+    this.button = button;
 
     const input = document.createElement('input');
     input.placeholder = 'Name';
@@ -60,8 +60,9 @@ class View {
     input.style.position = 'absolute';
     input.style.left = '20%';
     input.style.top = '30%';
+    this.input = input;
 
-    this.div.appendChild(input);
+    this.form.appendChild(input);
 
     const heading = document.createElement('h1');
     heading.innerHTML = 'BEE IO';
@@ -84,11 +85,6 @@ class View {
 
   disableStartButton() {
     this.button.disabled = true;
-  }
-
-  hideStartButton() {
-    // console.log("test123");
-    this.button.style.display = 'none';
   }
 
   changeCanvasSize(width, height) {
