@@ -1,6 +1,7 @@
 import Player from '../src/player';
 
 test('BulletHit', () => {
+  // TODO add some more test case
   const mockSocket = { on: () => true };
   const mockGame = {};
   const testPlayer = new Player(mockSocket, mockGame);
