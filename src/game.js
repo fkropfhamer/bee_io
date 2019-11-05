@@ -5,11 +5,6 @@ class Game {
   constructor() {
     this.players = [];
     this.bullets = [];
-    // this.boundTop = 1000;
-    // this.boundBottom = 3000;
-    // this.boundLeft = 1000;
-    // this.boundRight = 3000;
-    // this.bulletDuration = 10000;
     setInterval((game) => game.update(), 25, this);
   }
 
