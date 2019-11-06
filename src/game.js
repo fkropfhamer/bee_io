@@ -9,7 +9,7 @@ class Game {
   }
 
   addPlayer(player) {
-    console.log('added Player');
+    console.log('added Player', player.name);
     player.x = config.boundLeft + Math.random() * config.boundRight;
     player.y = config.boundTop + Math.random() * config.boundBottom;
     player.angle = Math.random();

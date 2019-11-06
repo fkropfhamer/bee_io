@@ -31,16 +31,17 @@ class Socket {
   setup() {
     this.io.on('connection', (socket) => {
       console.log('user connected');
-      socket.on('start', () => {
+      socket.on('start', (data) => {
         console.log('start');
-        this.start(socket);
+        this.start(socket, data.name);
       });
     });
   }
 
-  start(socket) {
+  start(socket, playerName) {
     const game = this.findGame();
     const player = new Player(socket, game);
+    player.name = playerName;
     game.addPlayer(player);
   }
 }

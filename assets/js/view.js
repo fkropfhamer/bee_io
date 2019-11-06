@@ -49,7 +49,7 @@ class View {
       if (this.input.value !== '') {
         // TODO set Player name and send to server!
         console.log(this.input.value);
-        startEvent();
+        startEvent(this.input.value);
       }
     });
     this.form.appendChild(button);
