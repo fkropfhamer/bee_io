@@ -50,8 +50,8 @@ describe('update', () => {
 
     testPlayer.update();
 
-    expect(testPlayer.x).toBe(684);
-    expect(testPlayer.y).toBe(672);
+    expect(testPlayer.x).toBe(679);
+    expect(testPlayer.y).toBe(667);
     expect(testPlayer.angle).toBe(0);
     expect(testPlayer.speed).toBe(0);
   });
