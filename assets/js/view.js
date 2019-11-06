@@ -124,7 +124,7 @@ class View {
   drawPlayer(angle, frame) {
     const beeImage = this.beeImages[frame];
     this.drawImageAtAngle(beeImage, this.width / 2, this.height / 2, angle, this.scale);
-    this.drawRectAtAngle(this.width / 2, this.height / 2, angle, 800, 400, this.scale);
+    this.drawRectAtAngle(this.width / 2, this.height / 2, angle, 733, 333, this.scale);
   }
 }
 

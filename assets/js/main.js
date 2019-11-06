@@ -97,11 +97,11 @@ const draw = () => {
   view.reset();
   // console.log(gameState.x, gameState.y);
   view.drawBackground(gameState.x, gameState.y);
-  gameState.enemys.forEach((enemy) => {
-    view.drawEnemy(enemy.x, enemy.y, enemy.angle, enemy.frame, gameState.x, gameState.y);
-  });
   gameState.bullets.forEach((bullet) => {
     view.drawBullet(bullet.x, bullet.y, bullet.angle, gameState.x, gameState.y);
+  });
+  gameState.enemys.forEach((enemy) => {
+    view.drawEnemy(enemy.x, enemy.y, enemy.angle, enemy.frame, gameState.x, gameState.y);
   });
   view.drawPlayer(gameState.angle, gameState.frame);
 };

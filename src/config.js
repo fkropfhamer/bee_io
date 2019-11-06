@@ -9,8 +9,8 @@ const config = {
   boundLeft: 654,
   boundRight: 7363,
 
-  playerWidth: 120,
-  playerHeight: 60,
+  playerWidth: 110, // Hitbox size not actual size
+  playerHeight: 50, // Hitbox size not actual size
 
   bulletHeight: 16.85,
   bulletWidth: 31.55,
