@@ -2,7 +2,7 @@ import bee01 from '../images/bee01.png'; // 934 x 632
 import bee02 from '../images/bee02.png';
 import bee03 from '../images/bee03.png';
 import background from '../images/waben001.png'; // 8016 x 5881
-import sting from '../images/sting001.png';
+import sting from '../images/sting001.png'; // 631 x 337
 import '../css/index.css';
 import music from '../sound/Six_Umbrellas_-_07_-_Asset_House.mp3';
 import View from './view';
@@ -97,11 +97,11 @@ const draw = () => {
   view.reset();
   // console.log(gameState.x, gameState.y);
   view.drawBackground(gameState.x, gameState.y);
-  gameState.enemys.forEach((enemy) => {
-    view.drawEnemy(enemy.x, enemy.y, enemy.angle, enemy.frame, gameState.x, gameState.y);
-  });
   gameState.bullets.forEach((bullet) => {
     view.drawBullet(bullet.x, bullet.y, bullet.angle, gameState.x, gameState.y);
+  });
+  gameState.enemys.forEach((enemy) => {
+    view.drawEnemy(enemy.x, enemy.y, enemy.angle, enemy.frame, gameState.x, gameState.y);
   });
   view.drawPlayer(gameState.angle, gameState.frame);
 };

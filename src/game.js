@@ -5,18 +5,13 @@ class Game {
   constructor() {
     this.players = [];
     this.bullets = [];
-    this.boundTop = 1000;
-    this.boundBottom = 3000;
-    this.boundLeft = 1000;
-    this.boundRight = 3000;
-    this.bulletDuration = 10000;
     setInterval((game) => game.update(), 25, this);
   }
 
   addPlayer(player) {
     console.log('added Player');
-    player.x = this.boundLeft + Math.random() * this.boundRight;
-    player.y = this.boundTop + Math.random() * this.boundBottom;
+    player.x = config.boundLeft + Math.random() * config.boundRight;
+    player.y = config.boundTop + Math.random() * config.boundBottom;
     player.angle = Math.random();
     player.speed = config.playerSpeed;
     player.health = config.playerHealth;
@@ -28,11 +23,12 @@ class Game {
     this.players = this.players.filter((p) => !Object.is(p, player));
   }
 
-  createBullet(x, y, angle) {
+  createBullet(x, y, angle, player) {
     this.bullets.push({
       x,
       y,
       angle,
+      player,
       speed: config.bulletSpeed,
       duration: config.bulletDuration,
     });
@@ -44,6 +40,7 @@ class Game {
       x: Util.updateX(bullet.x, bullet.speed, bullet.angle),
       y: Util.updateY(bullet.y, bullet.speed, bullet.angle),
       angle: bullet.angle,
+      player: bullet.player,
       speed: bullet.speed,
       duration: bullet.duration - 1,
     }));
@@ -55,9 +52,28 @@ class Game {
     });
   }
 
+  // checks for every player every enemy bullet if it hits the player
+  checkHits() {
+    // TODO
+    this.players.forEach((player) => {
+      // console.log(player.socket.id);
+      const enemyBullets = this.bullets.filter((bullet) => !Object.is(bullet.player, player));
+      // console.log(this.players.length, enemyBullets.length);
+      enemyBullets.forEach((bullet) => {
+        if (player.checkBulletHit(bullet.x, bullet.y, bullet.angle)) {
+          player.health -= config.bulletDamage;
+          this.bullets = this.bullets.filter((b) => !Object.is(b, bullet));
+          console.log('hit');
+        }
+      });
+    });
+  }
+
   update() {
     this.updatePlayers();
     this.updateBullets();
+
+    this.checkHits();
     // console.log('update');
     this.players.forEach((player) => {
       player.update();
@@ -72,7 +88,12 @@ class Game {
         angle: enemy.angle,
         frame: 1,
       }));
-      player.sendUpdate(enemyPos, this.bullets);
+      const bulletsPos = this.bullets.map((bullet) => ({
+        x: bullet.x,
+        y: bullet.y,
+        angle: bullet.angle,
+      }));
+      player.sendUpdate(enemyPos, bulletsPos);
     });
   }
 }

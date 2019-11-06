@@ -1,6 +1,7 @@
 class View {
   constructor() {
     this.scale = 0.15;
+    this.bulletScale = 0.05;
     this.height = window.innerHeight;
     this.width = window.innerWidth;
     this.color = '#92922e';
@@ -127,7 +128,7 @@ class View {
       x - (playerX - this.width / 2),
       y - (playerY - this.height / 2),
       angle,
-      0.05
+      this.bulletScale
     );
   }
 
@@ -142,9 +143,29 @@ class View {
     );
   }
 
+  // helper function to see hitbox
+  drawRectAtAngle(x, y, angle, width, height, scale = 1) {
+    const imgWidth = width * scale;
+    const imgHeight = height * scale;
+
+    this.ctx.save();
+    this.ctx.translate(x, y);
+    this.ctx.rotate(angle);
+
+    // this.ctx.drawImage(image, -imgWidth / 2, -imgHeight / 2, imgWidth, imgHeight);
+    this.ctx.beginPath();
+    // this.ctx.lineWidth = 5;
+    this.ctx.strokeStyle = 'red';
+
+    this.ctx.rect(-imgWidth / 2, -imgHeight / 2, imgWidth, imgHeight);
+    this.ctx.stroke();
+    this.ctx.restore();
+  }
+
   drawPlayer(angle, frame) {
     const beeImage = this.beeImages[frame];
     this.drawImageAtAngle(beeImage, this.width / 2, this.height / 2, angle, this.scale);
+    this.drawRectAtAngle(this.width / 2, this.height / 2, angle, 733, 333, this.scale);
   }
 }
 
