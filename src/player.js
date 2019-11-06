@@ -83,6 +83,10 @@ class Player {
     this.socket.emit('start', { x: this.x, y: this.y, angle: this.angle });
   }
 
+  death() {
+    this.socket.emit('death');
+  }
+
   sendUpdate(enemys, bullets) {
     this.socket.emit('update', {
       x: this.x,

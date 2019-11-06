@@ -88,6 +88,26 @@ class View {
     this.button.disabled = true;
   }
 
+  showDeathMenu() {
+    const div = document.createElement('div');
+    div.style.backgroundColor = 'grey';
+    div.style.position = 'absolute';
+    div.style.left = '25%';
+    div.style.top = '25%';
+    div.style.width = `${this.width / 2}px`;
+    div.style.height = `${this.height / 2}px`;
+    document.getElementById('root').appendChild(div);
+    // this.div = div;
+
+    const heading = document.createElement('h1');
+    heading.innerHTML = 'you died!!!';
+    heading.style.position = 'absolute';
+    heading.style.left = '20%';
+    heading.style.top = '5%';
+
+    div.appendChild(heading);
+  }
+
   changeCanvasSize(width, height) {
     this.canvas.width = width;
     this.canvas.height = height;

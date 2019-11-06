@@ -144,6 +144,11 @@ function gameLoop() {
   // window.requestAnimationFrame(gameLoop);
 }
 
+function death() {
+  // view.reset();
+  view.showDeathMenu();
+}
+
 function start() {
   // socket.emit('start');
   setupEventlisteners();
@@ -179,6 +184,10 @@ function setupSocket() {
     gameState.enemys = data.enemys;
     gameState.bullets = data.bullets;
     window.requestAnimationFrame(gameLoop);
+  });
+
+  socket.on('death', () => {
+    death();
   });
 }
 

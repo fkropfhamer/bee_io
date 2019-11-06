@@ -15,6 +15,7 @@ class Game {
     player.angle = Math.random();
     player.speed = config.playerSpeed;
     player.health = config.playerHealth;
+    player.kills = 0;
     this.players.push(player);
     player.sendStart();
   }
@@ -65,8 +66,19 @@ class Game {
           this.bullets = this.bullets.filter((b) => !Object.is(b, bullet));
           console.log('hit');
         }
+
+        if (player.health <= 0) {
+          this.killPlayer(player, bullet);
+          console.log('death');
+        }
       });
     });
+  }
+
+  killPlayer(player, bullet) {
+    this.players = this.players.filter((p) => !Object.is(p, player));
+    bullet.player.kills += 1;
+    player.death();
   }
 
   update() {
