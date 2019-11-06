@@ -34,6 +34,7 @@
   },
   "scripts": {
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "lint:prettier": "prettier --check '{**/*,*}.{js,json}'",
     "lint": "eslint . -c .eslintrc.json --ext js,json",
     "lint:fix": "eslint . -c .eslintrc.json --ext js,json --fix",
