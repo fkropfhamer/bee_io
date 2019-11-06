@@ -61,7 +61,7 @@ class Game {
       // console.log(this.players.length, enemyBullets.length);
       enemyBullets.forEach((bullet) => {
         if (player.checkBulletHit(bullet.x, bullet.y, bullet.angle)) {
-          player.health -= 5;
+          player.health -= config.bulletDamage;
           this.bullets = this.bullets.filter((b) => !Object.is(b, bullet));
           console.log('hit');
         }
