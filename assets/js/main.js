@@ -7,8 +7,6 @@ import '../css/index.css';
 import music from '../sound/Six_Umbrellas_-_07_-_Asset_House.mp3';
 import View from './view';
 
-// let socket;
-
 class Game {
   constructor() {
     this.count = 0;
@@ -53,28 +51,8 @@ class Game {
       this.imagesLoaded = true;
     });
   }
-  /*
-
-let count = 0;
-const globalImages = [];
-let view;
-let backgroundMusic;
-const gameState = {
-  connected: false,
-  started: false,
-  imagesLoaded: false,
-  audioLoaded: false,
-  x: 1000,
-  y: 1000,
-  frame: 0,
-  angle: -1,
-  speed: 5,
-  bullets: [],
-  enemys: [],
-}; */
 
   loadImages(callback) {
-    // console.log(images);
     let loadedImagesCount = 0;
     this.globalImages.forEach((img) => {
       img.img.onload = () => {
@@ -121,19 +99,11 @@ const gameState = {
         e.clientY - this.view.canvas.offsetTop - this.view.height / 2,
         e.clientX - this.view.canvas.offsetLeft - this.view.width / 2
       );
-      // gameState.angle = dir;
-      // console.log(dir);
       this.socket.emit('update direction', dir);
     });
     // TODO: fires when start button clicked!
     window.addEventListener('click', () => {
       this.socket.emit('shoot');
-      /* gameState.bullets.push({
-      x: gameState.x,
-      y: gameState.y,
-      angle: (gameState.angle - Math.PI) % (2 * Math.PI),
-      speed: 5,
-    }); */
     });
   }
 
@@ -149,14 +119,6 @@ const gameState = {
     });
     this.view.drawPlayer(this.angle, this.frame);
   }
-  /*
-function updateX(x, speed, angle) {
-  return x + speed * Math.cos(angle);
-}
-
-function updateY(y, speed, angle) {
-  return y + speed * Math.sin(angle);
-} */
 
   update() {
     this.count += 1;
@@ -164,28 +126,12 @@ function updateY(y, speed, angle) {
       this.frame += 1;
       this.frame %= 3;
       this.count = 0;
-      /* gameState.enemys.forEach((enemy) => {
-      enemy.frame += 1;
-      enemy.frame %= 3;
-    });
-    */
     }
-    /*
-  gameState.bullets = gameState.bullets.map((bullet) => ({
-    x: updateX(bullet.x, bullet.speed, bullet.angle),
-    y: updateY(bullet.y, bullet.speed, bullet.angle),
-    speed: bullet.speed,
-    angle: bullet.angle,
-  }));
-*/
-    // gameState.x = updateX(gameState.x, gameState.speed, gameState.angle);
-    // gameState.y = updateY(gameState.y, gameState.speed, gameState.angle);
   }
 
   gameLoop() {
     this.update();
     this.draw();
-    // window.requestAnimationFrame(gameLoop);
   }
 
   death() {
