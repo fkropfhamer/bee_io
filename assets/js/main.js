@@ -7,7 +7,53 @@ import '../css/index.css';
 import music from '../sound/Six_Umbrellas_-_07_-_Asset_House.mp3';
 import View from './view';
 
-let socket;
+// let socket;
+
+class Game {
+  constructor() {
+    this.count = 0;
+    this.globalImages = [];
+    this.connected = false;
+    this.started = false;
+    this.imagesLoaded = false;
+    this.audioLoaded = false;
+    this.frame = 0;
+
+    this.bullets = [];
+    this.enemys = [];
+
+    // eslint-disable-next-line no-undef
+    this.socket = io();
+
+    this.view = new View();
+    this.view.showStartMenu((name) => {
+      this.view.hideStartMenu();
+      this.socket.emit('start', { name });
+    });
+
+    this.setupSocket();
+
+    this.setupAudio(() => {
+      if (this.imagesLoaded && this.connected) {
+        this.view.enableStartButton();
+      }
+      // console.log("audioLoaded");
+      this.audioLoaded = true;
+    });
+    // setupImages(setup);
+    this.setupImages(() => {
+      const images = {};
+      this.globalImages.forEach((img) => {
+        images[img.name] = img.img;
+      });
+      this.view.setupImages(images);
+      if (this.audioLoaded && this.connected) {
+        this.view.enableStartButton();
+      }
+      this.imagesLoaded = true;
+    });
+  }
+  /*
 
 let count = 0;
 const globalImages = [];
@@ -25,87 +71,85 @@ const gameState = {
   speed: 5,
   bullets: [],
   enemys: [],
-};
+}; */
 
-function loadImages(images, callback) {
-  // console.log(images);
-  let loadedImagesCount = 0;
-  images.forEach((img) => {
-    img.img.onload = () => {
-      loadedImagesCount += 1;
-      if (loadedImagesCount === images.length) {
-        callback();
-      }
-    };
-  });
-}
+  loadImages(callback) {
+    // console.log(images);
+    let loadedImagesCount = 0;
+    this.globalImages.forEach((img) => {
+      img.img.onload = () => {
+        loadedImagesCount += 1;
+        if (loadedImagesCount === this.globalImages.length) {
+          callback();
+        }
+      };
+    });
+  }
 
-function setupImages(callback) {
-  const beeImg01 = new Image();
-  const beeImg02 = new Image();
-  const beeImg03 = new Image();
-  const stingImg = new Image();
-  const backgroundImg = new Image();
+  setupImages(callback) {
+    const beeImg01 = new Image();
+    const beeImg02 = new Image();
+    const beeImg03 = new Image();
+    const stingImg = new Image();
+    const backgroundImg = new Image();
 
-  beeImg01.src = bee01;
-  beeImg02.src = bee02;
-  beeImg03.src = bee03;
-  stingImg.src = sting;
-  backgroundImg.src = background;
+    beeImg01.src = bee01;
+    beeImg02.src = bee02;
+    beeImg03.src = bee03;
+    stingImg.src = sting;
+    backgroundImg.src = background;
 
-  globalImages.push({ img: beeImg01, name: 'bee01' });
-  globalImages.push({ img: beeImg02, name: 'bee02' });
-  globalImages.push({ img: beeImg03, name: 'bee03' });
-  globalImages.push({ img: stingImg, name: 'sting' });
-  globalImages.push({ img: backgroundImg, name: 'background' });
+    this.globalImages.push({ img: beeImg01, name: 'bee01' });
+    this.globalImages.push({ img: beeImg02, name: 'bee02' });
+    this.globalImages.push({ img: beeImg03, name: 'bee03' });
+    this.globalImages.push({ img: stingImg, name: 'sting' });
+    this.globalImages.push({ img: backgroundImg, name: 'background' });
 
-  loadImages(globalImages, callback);
-}
+    this.loadImages(callback);
+  }
 
-// TODO: add music!!!
+  setupAudio(callback) {
+    this.backgroundMusic = new Audio();
+    this.backgroundMusic.src = music;
+    this.backgroundMusic.loop = true;
+    this.backgroundMusic.onloadeddata = callback;
+  }
 
-function setupAudio(callback) {
-  backgroundMusic = new Audio();
-  backgroundMusic.src = music;
-  backgroundMusic.loop = true;
-  backgroundMusic.onloadeddata = callback;
-}
-
-function setupEventlisteners() {
-  window.addEventListener('mousemove', (e) => {
-    const dir = Math.atan2(
-      e.clientY - view.canvas.offsetTop - view.height / 2,
-      e.clientX - view.canvas.offsetLeft - view.width / 2
-    );
-    // gameState.angle = dir;
-    // console.log(dir);
-    socket.emit('update direction', dir);
-  });
-  // TODO: fires when start button clicked!
-  window.addEventListener('click', () => {
-    socket.emit('shoot');
-    /* gameState.bullets.push({
+  setupEventlisteners() {
+    window.addEventListener('mousemove', (e) => {
+      const dir = Math.atan2(
+        e.clientY - this.view.canvas.offsetTop - this.view.height / 2,
+        e.clientX - this.view.canvas.offsetLeft - this.view.width / 2
+      );
+      // gameState.angle = dir;
+      // console.log(dir);
+      this.socket.emit('update direction', dir);
+    });
+    // TODO: fires when start button clicked!
+    window.addEventListener('click', () => {
+      this.socket.emit('shoot');
+      /* gameState.bullets.push({
       x: gameState.x,
       y: gameState.y,
       angle: (gameState.angle - Math.PI) % (2 * Math.PI),
       speed: 5,
     }); */
-  });
-}
+    });
+  }
 
-const draw = () => {
-  view.reset();
-  // console.log(gameState.x, gameState.y);
-  view.drawBackground(gameState.x, gameState.y);
-  gameState.bullets.forEach((bullet) => {
-    view.drawBullet(bullet.x, bullet.y, bullet.angle, gameState.x, gameState.y);
-  });
-  gameState.enemys.forEach((enemy) => {
-    view.drawEnemy(enemy.x, enemy.y, enemy.angle, enemy.frame, gameState.x, gameState.y);
-  });
-  view.drawPlayer(gameState.angle, gameState.frame);
-};
-/*
+  draw() {
+    this.view.reset();
+    // console.log(gameState.x, gameState.y);
+    this.view.drawBackground(this.x, this.y);
+    this.bullets.forEach((bullet) => {
+      this.view.drawBullet(bullet.x, bullet.y, bullet.angle, this.x, this.y);
+    });
+    this.enemys.forEach((enemy) => {
+      this.view.drawEnemy(enemy.x, enemy.y, enemy.angle, enemy.frame, this.x, this.y);
+    });
+    this.view.drawPlayer(this.angle, this.frame);
+  }
+  /*
 function updateX(x, speed, angle) {
   return x + speed * Math.cos(angle);
 }
@@ -114,19 +158,19 @@ function updateY(y, speed, angle) {
   return y + speed * Math.sin(angle);
 } */
 
-function update() {
-  count += 1;
-  if (count % 10 === 0) {
-    gameState.frame += 1;
-    gameState.frame %= 3;
-    count = 0;
-    /* gameState.enemys.forEach((enemy) => {
+  update() {
+    this.count += 1;
+    if (this.count % 10 === 0) {
+      this.frame += 1;
+      this.frame %= 3;
+      this.count = 0;
+      /* gameState.enemys.forEach((enemy) => {
       enemy.frame += 1;
       enemy.frame %= 3;
     });
     */
-  }
-  /*
+    }
+    /*
   gameState.bullets = gameState.bullets.map((bullet) => ({
     x: updateX(bullet.x, bullet.speed, bullet.angle),
     y: updateY(bullet.y, bullet.speed, bullet.angle),
@@ -134,94 +178,67 @@ function update() {
     angle: bullet.angle,
   }));
 */
-  // gameState.x = updateX(gameState.x, gameState.speed, gameState.angle);
-  // gameState.y = updateY(gameState.y, gameState.speed, gameState.angle);
-}
+    // gameState.x = updateX(gameState.x, gameState.speed, gameState.angle);
+    // gameState.y = updateY(gameState.y, gameState.speed, gameState.angle);
+  }
 
-function gameLoop() {
-  update();
-  draw();
-  // window.requestAnimationFrame(gameLoop);
-}
+  gameLoop() {
+    this.update();
+    this.draw();
+    // window.requestAnimationFrame(gameLoop);
+  }
 
-function death() {
-  // view.reset();
-  view.showDeathMenu();
-}
+  death() {
+    // view.reset();
+    this.view.showDeathMenu();
+  }
 
-function start() {
-  // socket.emit('start');
-  setupEventlisteners();
-  backgroundMusic.play();
-  window.requestAnimationFrame(gameLoop);
-}
+  start() {
+    // socket.emit('start');
+    this.setupEventlisteners();
+    this.backgroundMusic.play();
+    window.requestAnimationFrame(() => this.gameLoop());
+  }
 
-function setupSocket() {
-  socket.on('connect', () => {
-    console.log('connected');
-    if (gameState.imagesLoaded && gameState.audioLoaded) {
-      view.enableStartButton();
-    }
-    gameState.connected = true;
-  });
-  socket.on('disconnect', () => {
-    console.log('disconnected');
-    view.disableStartButton();
-    gameState.connected = false;
-  });
-  socket.on('start', (data) => {
-    console.log(data);
-    gameState.x = data.x;
-    gameState.y = data.y;
-    gameState.angle = data.angle;
-    start();
-  });
-  socket.on('update', (data) => {
-    console.log(data);
-    gameState.x = data.x;
-    gameState.y = data.y;
-    gameState.angle = data.angle;
-    gameState.enemys = data.enemys;
-    gameState.bullets = data.bullets;
-    window.requestAnimationFrame(gameLoop);
-  });
+  setupSocket() {
+    this.socket.on('connect', () => {
+      console.log('connected');
+      if (this.imagesLoaded && this.audioLoaded) {
+        this.view.enableStartButton();
+      }
+      this.connected = true;
+    });
+    this.socket.on('disconnect', () => {
+      console.log('disconnected');
+      this.view.disableStartButton();
+      this.connected = false;
+    });
+    this.socket.on('start', (data) => {
+      console.log(data);
+      this.x = data.x;
+      this.y = data.y;
+      this.angle = data.angle;
+      this.start();
+    });
+    this.socket.on('update', (data) => {
+      console.log(data);
+      this.x = data.x;
+      this.y = data.y;
+      this.angle = data.angle;
+      this.enemys = data.enemys;
+      this.bullets = data.bullets;
+      window.requestAnimationFrame(() => this.gameLoop());
+    });
 
-  socket.on('death', () => {
-    death();
-  });
+    this.socket.on('death', () => {
+      this.death();
+    });
+  }
 }
 
 function init() {
-  // eslint-disable-next-line no-undef
-  socket = io();
-
-  view = new View();
-  view.showStartMenu((name) => {
-    view.hideStartMenu();
-    socket.emit('start', { name });
-  });
-
-  setupSocket();
-
-  setupAudio(() => {
-    if (gameState.imagesLoaded && gameState.connected) {
-      view.enableStartButton();
-    }
-    // console.log("audioLoaded");
-    gameState.audioLoaded = true;
-  });
-  // setupImages(setup);
-  setupImages(() => {
-    const images = {};
-    globalImages.forEach((img) => {
-      images[img.name] = img.img;
-    });
-    view.setupImages(images);
-    if (gameState.audioLoaded && gameState.connected) {
-      view.enableStartButton();
-    }
-    gameState.imagesLoaded = true;
-  });
+  // eslint-disable-next-line no-new
+  new Game();
 }
 
 window.onload = init();
