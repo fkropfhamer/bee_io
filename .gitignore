@@ -7,5 +7,6 @@
 
 /public
 /dist
+/coverage
 
 npm-debug.log*
